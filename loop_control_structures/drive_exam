@@ -1,0 +1,22 @@
+from colorama import Fore
+
+READY_FOR_EXAM_STYLE = Fore.GREEN
+MIN_EXAM_DRIVE_LEVEL = 100
+
+MIN_LESSON_SCORE = 1
+MAX_LESSON_SCORE = 5
+
+student_drive_level = 0
+
+while student_drive_level < MIN_EXAM_DRIVE_LEVEL:
+
+    lesson_score = int(input("Введите оценку за урок (от 1 до 5): "))
+    while lesson_score < MIN_LESSON_SCORE or lesson_score > MAX_LESSON_SCORE:
+        print('Оценка должна быть от 1 до 5')
+        lesson_score = int(input(f'Введите оценку за урок повторно:'))
+
+    student_drive_level += lesson_score
+    print(student_drive_level)
+
+print(READY_FOR_EXAM_STYLE, end='')
+print("Студент готов сдать экзамен!")
