@@ -1,0 +1,5 @@
+CLOCK_HOURS_COUNT = 12
+CUCKOO_CLOCK_SOUND = 'ку'
+
+for hour in range(1,CLOCK_HOURS_COUNT+1):
+    print(CUCKOO_CLOCK_SOUND * hour)
