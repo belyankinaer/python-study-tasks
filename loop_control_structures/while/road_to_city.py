@@ -34,15 +34,15 @@ while covered_distance < to_city_distance:
             is_per_day_distance_valid = True
 
     remaining_distance = to_city_distance - covered_distance
-    covered_distance += per_day_distance
 
     if per_day_distance > remaining_distance:
-        print(f"Вы можете пройти только {remaining_distance} км - дальше город!")
-        final_step = remaining_distance
-        covered_distance += final_step
-        print(f"Вы прошли оставшиеся {final_step} км и достигли города.")
-    elif covered_distance >= to_city_distance:
-        print(SUCCESSFUL_FINDING_CITY_TEXT_COLOR + 'Город найден!' + Style.RESET_ALL)
-        city_found = True
+        covered_distance += remaining_distance
+        print(f"Вы прошли {remaining_distance} км (из {per_day_distance} км) и нашли город. Город найден!")
     else:
-        print(f'Пройдено {covered_distance} км. Город пока что не найден.')
+        covered_distance += per_day_distance
+        if covered_distance >= to_city_distance:
+            print(SUCCESSFUL_FINDING_CITY_TEXT_COLOR + 'Город найден!' + Style.RESET_ALL)
+            city_found = True
+        else:
+            print(
+                f'Сегодня вы прошли {per_day_distance}. Всего пройдено {covered_distance} км. Город пока что не найден.')
