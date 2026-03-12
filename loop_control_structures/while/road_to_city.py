@@ -2,47 +2,45 @@ import random
 
 from colorama import Fore, Style
 
-SUCCESSFUL_FINDING_CITY_TEXT_COLOR = Fore.GREEN
-UNSUCCESSFUL_FINDING_CITY_TEXT_COLOR = Fore.RED
-
 MIN_TO_CITY_DISTANCE = 1
 MAX_TO_CITY_DISTANCE = 1000
 to_city_distance = random.randint(MIN_TO_CITY_DISTANCE, MAX_TO_CITY_DISTANCE)
 
-MIN_PER_DAY_DISTANCE = 1
-MAX_PER_DAY_DISTANCE = 100
-
-covered_distance = 0
-city_found = False
-
 print(f"Расстояние до города: {to_city_distance} км")
 
-while covered_distance < to_city_distance:
+covered_to_city_distance = 0
+MIN_PER_DAY_DISTANCE = 1
+MAX_PER_DAY_DISTANCE = 100
+is_city_found = False
+
+SUCCESSFUL_FINDING_CITY_TEXT_COLOR = Fore.GREEN
+UNSUCCESSFUL_FINDING_CITY_TEXT_COLOR = Fore.RED
+
+while covered_to_city_distance < to_city_distance:
     per_day_distance = MIN_PER_DAY_DISTANCE - 1
-    is_per_day_distance_valid = False
     per_day_distance_info = ''
+    is_per_day_distance_valid = False
+
+    remaining_distance = to_city_distance - covered_to_city_distance
+    total_max_per_day_distance = min(MAX_PER_DAY_DISTANCE, remaining_distance)
 
     while not is_per_day_distance_valid:
-        while per_day_distance_info.isdigit() == False:
-            per_day_distance_info = input('Введите расстояние за день. Расстояние должно быть целым числом: ')
+        per_day_distance_info = input("Введите расстояние за день. Расстояние должно быть целым числом: ")
 
-        per_day_distance = int(per_day_distance_info)
-
-        if per_day_distance < MIN_PER_DAY_DISTANCE or per_day_distance > MAX_PER_DAY_DISTANCE:
-            print('Пройденное расстояние должно быть от 1 до 100!')
+        if per_day_distance_info.isdigit():
+            per_day_distance = int(per_day_distance_info)
+            if MIN_PER_DAY_DISTANCE <= per_day_distance <= total_max_per_day_distance:
+                is_per_day_distance_valid = True
+            else:
+                print(f"Пройденное расстояние должно быть от {MIN_PER_DAY_DISTANCE} до {total_max_per_day_distance}!")
         else:
-            is_per_day_distance_valid = True
+            print("Введите только целое число")
 
-    remaining_distance = to_city_distance - covered_distance
+    covered_to_city_distance += per_day_distance
 
-    if per_day_distance > remaining_distance:
-        covered_distance += remaining_distance
-        print(f"Вы прошли {remaining_distance} км (из {per_day_distance} км) и нашли город. Город найден!")
-    else:
-        covered_distance += per_day_distance
-        if covered_distance >= to_city_distance:
-            print(SUCCESSFUL_FINDING_CITY_TEXT_COLOR + 'Город найден!' + Style.RESET_ALL)
-            city_found = True
-        else:
-            print(
-                f'Сегодня вы прошли {per_day_distance}. Всего пройдено {covered_distance} км. Город пока что не найден.')
+    print(f"Сегодня вы прошли {per_day_distance}. "
+          f"Всего пройдено {covered_to_city_distance} км. Город пока что не найден.")
+
+print(SUCCESSFUL_FINDING_CITY_TEXT_COLOR, end='')
+print("Город найден!", end='')
+print(Style.RESET_ALL)
